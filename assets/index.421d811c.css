@@ -456,7 +456,6 @@ body.dark ._dockItemButton_ui98a_1 ._tooltip_ui98a_16 {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  background-color: hsla(var(--app-color-light-hsl), .3);
   -webkit-backdrop-filter: blur(12px);
   backdrop-filter: blur(12px);
   border-radius: 1rem;
