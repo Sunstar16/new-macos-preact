@@ -300,7 +300,6 @@ body.dark ._contextContainer_wksbl_1 {
 }
 
 ._dockEl_1f0zn_14 {
-  background-color: hsla(var(--app-color-light-hsl), .4);
   -webkit-box-shadow: inset 0 0 0 .2px hsla(var(--app-color-grey-100-hsl), .7), 0 0 0 .2px hsla(var(--app-color-grey-900-hsl), .7), rgba(0, 0, 0, .3) 2px 5px 19px 7px;
   box-shadow: inset 0 0 0 .2px hsla(var(--app-color-grey-100-hsl), .7), 0 0 0 .2px hsla(var(--app-color-grey-900-hsl), .7), rgba(0, 0, 0, .3) 2px 5px 19px 7px;
   position: relative;
