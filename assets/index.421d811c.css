@@ -477,7 +477,7 @@ body.dark ._container_1lum4_1 {
   border-radius: .75rem;
   -webkit-box-shadow: rgba(0, 0, 0, .3) 0 1px 4px -1px, inset 0 0 0 var(--border-size) hsla(var(--app-color-dark-hsl), .3), 0 0 0 var(--border-size) hsla(var(--app-color-light-hsl), .3);
   box-shadow: rgba(0, 0, 0, .3) 0 1px 4px -1px, inset 0 0 0 var(--border-size) hsla(var(--app-color-dark-hsl), .3), 0 0 0 var(--border-size) hsla(var(--app-color-light-hsl), .3);
-  background-color: hsla(var(--app-color-light-hsl), .5);
+  background-color: hsla(var(--app-color-light-hsl), .2);
   grid-column: var(--column-start)/span var(--column-span);
   grid-row: var(--row-start)/span var(--row-span);
 }
