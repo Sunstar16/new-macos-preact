@@ -31,7 +31,7 @@
                                 </svg>
                             </button>
                         </span>
-                        <!-- ... all other menu items ... -->
+                        <!-- ... all other menu items (Finder, File, Edit, etc.) ... -->
                     </div>
                     <span style="flex: 1 1 auto;"></span>
                     <div class="container">
@@ -56,7 +56,7 @@
             </svg>
         </div>
 
-        <!-- MAC STARTUP SOUND: PLAYS AUTOMATICALLY AFTER 1 SECOND -->
+        <!-- MAC STARTUP SOUND: PLAYS AFTER 1 SECOND — NO INTERACTION NEEDED -->
         <audio id="mac-startup" src="/assets/sounds/mac-startup-sound.mp3" preload="auto"></audio>
 
         <script>
@@ -67,8 +67,11 @@
             const KEY = 'macos-audio-unlocked';
             let unlocked = localStorage.getItem(KEY) === 'true';
 
-            // Silent unlock sound (1-sample WAV)
-            const unlocker = new Audio('data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAGQ=');
+            // Create silent unlock audio element
+            const unlocker = document.createElement('audio');
+            unlocker.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAGQ=';
+            unlocker.volume = 0;
+            document.body.appendChild(unlocker);
 
             function playStartup() {
               if (!unlocked) return;
@@ -82,10 +85,9 @@
                 unlocker.play().catch(() => {});
                 unlocked = true;
                 localStorage.setItem(KEY, 'true');
-                setTimeout(playStartup, 100); // Play real sound
+                setTimeout(playStartup, 100);
               }, 1000); // 1 second
             } else {
-              // Already unlocked → play immediately
               setTimeout(playStartup, 100);
             }
 
@@ -97,6 +99,9 @@
                 }, 150);
               }
             });
+
+            // Clean up
+            setTimeout(() => unlocker.remove(), 3000);
           })();
         </script>
 
