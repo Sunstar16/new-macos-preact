@@ -1,1 +1,133 @@
-import{Q as n,R as e,S as t,T as a,u as s,b as d,f as o}from"./vendor.b8623d82.js";import{c as r}from"./Calendar.0ee9814f.js";import"./index.de5a9c43.js";const _=[31,28,31,30,31,30,31,31,30,31,30,31],c=[31,29,31,30,31,30,31,31,30,31,30,31],h=["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];function i(n,e){const t=[];for(let a=n+1;a<=e;a++)t.push(a);return t}var u="_monthView_zd8nz_1",z="_weekday_zd8nz_12",m="_weekend_zd8nz_13",l="_day_zd8nz_19",y="_dateNumber_zd8nz_44",M="_thisMonth_zd8nz_56",v="_today_zd8nz_62";const f=()=>{const[f]=s(r),p=new Date,{daysInPrevMonth:N,daysInThisMonth:g,daysInNextMonth:I}=function(s){const d=n(s),o=d-1<0?11:d-1,r=(h=e(s))%4==0&&h%100!=0||h%400==0?c:_;var h;const u=t(a(s)),z=0===u?6:u-1,m=42-r[d]-z;return{daysInPrevMonth:i(r[o]-z,r[o]),daysInThisMonth:i(0,r[d]),daysInNextMonth:i(0,m)}}(f),x=(n,e)=>n.map(((n,t)=>{const a=f.getFullYear()===p.getFullYear()&&e&&f.getMonth()===p.getMonth()&&n===p.getDate();return d("div",{className:o({[l]:!0,[v]:a}),key:`day-${t}-${n}-${f.getMonth()}`},d("div",{className:o({[y]:!0,[M]:e})},n))}));return d("div",{className:u},h.map(((n,e)=>d("div",{className:[5,6].includes(e)?m:z},n))),x(N,!1),x(g,!0),x(I,!1))};export default f;export{f as MonthView};
+/**
+ * MonthView.vue - Renders a monthly calendar grid
+ * Uses date-fns for date math, Vue 3 + JSX (h() render function)
+ */
+
+import {
+  getYear,
+  getMonth,
+  startOfMonth,
+  getDay,
+  isToday,
+  addMonths
+} from "./vendor.b8623d82.js"; // date-fns assumed
+
+import { useCalendarDate } from "./Calendar.0ee9814f.js";
+import "./index.de5a9c43.js"; // Icons or utils
+
+// Constants
+const DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const DAYS_IN_LEAP_MONTH = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+const WEEKDAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+// Helper: Generate array of numbers from start (inclusive) to end (exclusive)
+const range = (start, end) => {
+  const result = [];
+  for (let i = start; i < end; i++) result.push(i + 1);
+  return result;
+};
+
+// CSS class names (BEM + hash scoped)
+const CLASS = {
+  monthView: "_monthView_zd8nz_1",
+  weekday: "_weekday_zd8nz_12",
+  weekend: "_weekend_zd8nz_13",
+  day: "_day_zd8nz_19",
+  dateNumber: "_dateNumber_zd8nz_44",
+  thisMonth: "_thisMonth_zd8nz_56",
+  today: "_today_zd8nz_62"
+};
+
+/**
+ * MonthView Component
+ * Renders 6 rows × 7 columns = 42 cells
+ * Shows prev/next month overflow days in muted style
+ */
+export default function MonthView() {
+  const [selectedDate] = useCalendarDate(); // Reactive date from parent
+  const today = new Date();
+
+  // Compute calendar grid data
+  const {
+    daysInPrevMonth,
+    daysInThisMonth,
+    daysInNextMonth
+  } = getCalendarGrid(selectedDate.value);
+
+  // Render a list of day cells
+  const renderDays = (days, isCurrentMonth) =>
+    days.map((day, index) => {
+      const isTodayDate =
+        selectedDate.value.getFullYear() === today.getFullYear() &&
+        selectedDate.value.getMonth() === today.getMonth() &&
+        isCurrentMonth &&
+        day === today.getDate();
+
+      return (
+        <div
+          key={`day-${index}-${day}-${selectedDate.value.getMonth()}`}
+          class={{
+            [CLASS.day]: true,
+            [CLASS.today]: isTodayDate
+          }}
+        >
+          <div
+            class={{
+              [CLASS.dateNumber]: true,
+              [CLASS.thisMonth]: isCurrentMonth
+            }}
+          >
+            {day}
+          </div>
+        </div>
+      );
+    });
+
+  return (
+    <div class={CLASS.monthView}>
+      {/* Weekday headers */}
+      {WEEKDAYS.map((day, index) => (
+        <div
+          key={day}
+          class={index >= 5 ? CLASS.weekend : CLASS.weekday}
+        >
+          {day}
+        </div>
+      ))}
+
+      {/* Render all days: prev + current + next */}
+      {renderDays(daysInPrevMonth, false)}
+      {renderDays(daysInThisMonth, true)}
+      {renderDays(daysInNextMonth, false)}
+    </div>
+  );
+}
+
+// Named export
+export { MonthView };
+
+/**
+ * Helper: Calculate days to display in 6×7 grid
+ */
+function getCalendarGrid(date) {
+  const year = getYear(date);
+  const month = getMonth(date); // 0–11
+  const prevMonth = month === 0 ? 11 : month - 1;
+  const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  const daysInMonth = isLeapYear ? DAYS_IN_LEAP_MONTH : DAYS_IN_MONTH;
+
+  const firstDayOfMonth = startOfMonth(date);
+  const firstWeekday = getDay(firstDayOfMonth); // 0=Sun, but we want Mon=0
+  const startOffset = firstWeekday === 0 ? 6 : firstWeekday - 1;
+
+  const daysInCurrent = daysInMonth[month];
+  const daysInPrev = daysInMonth[prevMonth];
+  const totalCells = 42; // 6 rows × 7 days
+  const remainingCells = totalCells - startOffset - daysInCurrent;
+
+  return {
+    daysInPrevMonth: range(daysInPrev - startOffset, daysInPrev),
+    daysInThisMonth: range(0, daysInCurrent),
+    daysInNextMonth: range(0, remainingCells)
+  };
+}
