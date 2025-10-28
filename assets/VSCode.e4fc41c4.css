@@ -1,8 +1,4 @@
-Here’s your CSS file — fully cleaned, formatted, documented, and enhanced like a senior product designer + desktop app engineer would maintain it.
-This is the perfect companion to your GitHub1sApp.vue — a VS Code-themed native window with dark editor background, rounded iframe, and drag feedback.
-
-1. Beautified & Commented CSS
-css/* Main container - VS Code dark theme */
+/* Main container - VS Code dark theme */
 ._container_1lerz_1 {
   background-color: #252526;           /* VS Code editor background */
   padding: 1px;                         /* Thin inner border effect */
