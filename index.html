@@ -20,13 +20,13 @@
 <body class="light">
     <div id="root">
         <main class="_main_16bmc_1">
-            <!-- Your full menu, dock, etc. here (unchanged) -->
+            <!-- … all your existing menu / dock markup … -->
             <header id="top-bar" class="_header_1olvu_1">…</header>
             <section class="_container_1yngt_1"></section>
             <section id="dock" class="_container_1f0zn_1">…</section>
         </main>
 
-        <!-- SPLASH SCREEN – appears first, then hides -->
+        <!-- ==== SPLASH SCREEN (the element you asked about) ==== -->
         <div class="_splashScreen_11rgz_1">
             <svg fill="white" xmlns="http://www.w3.org/2000/svg"
                  width="100" height="100" viewBox="0 0 24 24">
@@ -34,10 +34,10 @@
             </svg>
         </div>
 
-        <!-- STARTUP SOUND -->
+        <!-- ==== STARTUP SOUND ==== -->
         <audio id="mac-startup" src="/assets/sounds/mac-startup-sound.mp3" preload="auto"></audio>
 
-        <!-- ORIGINAL CLICK-BACKUP (unchanged – still works as fallback) -->
+        <!-- ==== ORIGINAL CLICK-BACKUP (unchanged) ==== -->
         <script>
           (function () {
             const audio = document.getElementById('mac-startup');
@@ -71,7 +71,7 @@
           })();
         </script>
 
-        <!-- NEW: PLAY SOUND WHEN SPLASH SCREEN *APPEARS* (after first click) -->
+        <!-- ==== NEW: PLAY WHEN SPLASH DISAPPEARS (after first interaction) ==== -->
         <script>
           (function () {
             const audio = document.getElementById('mac-startup');
@@ -79,49 +79,45 @@
 
             if (!audio || !splash) return;
 
-            let hasPlayed = false;
-
+            // Helper – play once
             const playOnce = () => {
-              if (hasPlayed) return;
-              hasPlayed = true;
               audio.currentTime = 0;
               audio.play().catch(() => {});
             };
 
-            // Unlock on first user interaction
-            document.addEventListener('click', function unlockAndWatch() {
-              document.removeEventListener('click', unlockAndWatch);
+            // First user gesture unlocks autoplay
+            document.addEventListener('click', function unlock() {
+              document.removeEventListener('click', unlock);
 
-              // If splash is already visible → play immediately
-              if (splash.offsetParent !== null && !splash.classList.contains('_hidden_11rgz_15')) {
+              // If splash is already gone, play immediately
+              if (splash.classList.contains('_hidden_11rgz_15') ||
+                  splash.offsetParent === null) {
                 playOnce();
                 return;
               }
 
-              // Watch for splash becoming visible
-              const observer = new MutationObserver(() => {
-                if (splash.offsetParent !== null && !splash.classList.contains('_hidden_11rgz_15')) {
-                  observer.disconnect();
+              // Observe class changes (the app adds _hidden_11rgz_15) or visibility
+              const obs = new MutationObserver(() => {
+                if (splash.classList.contains('_hidden_11rgz_15') ||
+                    splash.offsetParent === null) {
+                  obs.disconnect();
                   playOnce();
                 }
               });
 
-              observer.observe(splash, {
+              obs.observe(splash, {
                 attributes: true,
                 attributeFilter: ['class', 'style']
               });
 
-              // Fallback: check every 100ms
-              const check = setInterval(() => {
-                if (splash.offsetParent !== null && !splash.classList.contains('_hidden_11rgz_15')) {
-                  clearInterval(check);
-                  observer.disconnect();
+              // Fallback: if observer somehow misses it, play after a short delay
+              setTimeout(() => {
+                if (splash.classList.contains('_hidden_11rgz_15') ||
+                    splash.offsetParent === null) {
+                  obs.disconnect();
                   playOnce();
                 }
-              }, 100);
-
-              // Stop fallback after 5s
-              setTimeout(() => clearInterval(check), 5000);
+              }, 3000);
             }, { once: true });
           })();
         </script>
@@ -130,6 +126,7 @@
     </div>
 
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;350;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;350;400;500;600;700&display=swap"
+          rel="stylesheet">
 </body>
 </html>
