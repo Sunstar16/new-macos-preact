@@ -1,114 +1,71 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <link rel="icon" href="/assets/app-icons/finder/32.png">
-    <meta name="description" content="MacOS Desktop experience for Web">
-    <title>macOS in Preact</title>
-
-    <meta property="og:title" content="macOS in Preact">
-    <meta property="og:description" content="A painting of macOS Big Sur in HTML, CSS and JS">
-    <meta property="og:image" content="https://macos.now.sh/assets/cover-image.png">
-    <meta property="og:url" content="https://macos.now.sh">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <script type="module" crossorigin="" src="/assets/index.de5a9c43.js"></script>
-    <link rel="modulepreload" href="/assets/vendor.b8623d82.js">
-    <link rel="stylesheet" href="/assets/index.421d811c.css">
+  <meta charset="UTF-8" />
+  <title>Mac Startup Test</title>
+  <style>
+    body { margin: 0; background: #000; display: flex; justify-content: center; align-items: center; height: 100vh; font-family: sans-serif; color: white; }
+    .msg { font-size: 24px; }
+  </style>
 </head>
-<body class="light">
-    <div id="root">
-        <main class="_main_16bmc_1">
-            <header id="top-bar" class="_header_1olvu_1">
-                <div class="_container_bslv0_1">
-                    <!-- All your menu buttons (unchanged) -->
-                    <div>
-                        <span style="height: 100%;">
-                            <button class="_menuButton_bslv0_14 _appleIconButton_bslv0_40" style="--scale: 0;">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24">
-                                    <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"></path>
-                                </svg>
-                            </button>
-                        </span>
-                        <!-- ... all other menu items (Finder, File, Edit, etc.) ... -->
-                    </div>
-                    <span style="flex: 1 1 auto;"></span>
-                    <div class="container">
-                        <!-- Control Center, Clock, etc. -->
-                    </div>
-                </div>
-            </header>
+<body>
+  <div class="msg">Waiting 1 second for Mac startup sound...</div>
 
-            <section class="_container_1yngt_1"></section>
+  <!-- MAC STARTUP SOUND -->
+  <audio id="mac-startup" src="/assets/sounds/mac-startup-sound.mp3" preload="auto"></audio>
 
-            <section id="dock" class="_container_1f0zn_1">
-                <!-- All dock icons (unchanged) -->
-                <div class="_dockEl_1f0zn_14">
-                    <!-- Calculator, Calendar, VSCode, Finder, Safari, etc. -->
-                </div>
-            </section>
-        </main>
+  <script>
+    (function () {
+      const audio = document.getElementById('mac-startup');
+      if (!audio) {
+        console.error("Audio element not found!");
+        return;
+      }
 
-        <div class="_splashScreen_11rgz_1 _hidden_11rgz_15" hidden="">
-            <svg fill="white" xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24">
-                <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.1,22C7.79,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z"></path>
-            </svg>
-        </div>
+      const KEY = 'macos-audio-unlocked';
+      let unlocked = localStorage.getItem(KEY) === 'true';
 
-        <!-- MAC STARTUP SOUND: PLAYS AFTER 1 SECOND — NO INTERACTION NEEDED -->
-        <audio id="mac-startup" src="/assets/sounds/mac-startup-sound.mp3" preload="auto"></audio>
+      console.log("Unlocked status:", unlocked);
 
-        <script>
-          (function () {
-            const audio = document.getElementById('mac-startup');
-            if (!audio) return;
+      // Create silent unlock audio
+      const unlocker = document.createElement('audio');
+      unlocker.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAGQ=';
+      unlocker.volume = 0;
+      document.body.appendChild(unlocker);
 
-            const KEY = 'macos-audio-unlocked';
-            let unlocked = localStorage.getItem(KEY) === 'true';
+      function playMac() {
+        if (!unlocked) return;
+        console.log("Playing Mac startup sound...");
+        audio.currentTime = 0;
+        audio.play().catch(err => console.error("Play failed:", err));
+      }
 
-            // Create silent unlock audio element
-            const unlocker = document.createElement('audio');
-            unlocker.src = 'data:audio/wav;base64,UklGRigAAABXQVZFZm10IBIAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAGQ=';
-            unlocker.volume = 0;
-            document.body.appendChild(unlocker);
+      // UNLOCK AFTER 1 SECOND
+      if (!unlocked) {
+        console.log("Unlocking in 1 second...");
+        setTimeout(() => {
+          unlocker.play().catch(err => console.log("Silent unlock failed (normal):", err));
+          unlocked = true;
+          localStorage.setItem(KEY, 'true');
+          setTimeout(playMac, 100);
+        }, 1000);
+      } else {
+        console.log("Already unlocked — playing now");
+        setTimeout(playMac, 100);
+      }
 
-            function playStartup() {
-              if (!unlocked) return;
-              audio.currentTime = 0;
-              audio.play().catch(() => {});
-            }
+      // REFRESH SUPPORT
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted || !e.persisted) {
+          setTimeout(() => {
+            if (unlocked) playMac();
+          }, 150);
+        }
+      });
 
-            // AUTO-UNLOCK AFTER 1 SECOND
-            if (!unlocked) {
-              setTimeout(() => {
-                unlocker.play().catch(() => {});
-                unlocked = true;
-                localStorage.setItem(KEY, 'true');
-                setTimeout(playStartup, 100);
-              }, 1000); // 1 second
-            } else {
-              setTimeout(playStartup, 100);
-            }
-
-            // PLAY ON EVERY REFRESH
-            window.addEventListener('pageshow', (e) => {
-              if (e.persisted || !e.persisted) {
-                setTimeout(() => {
-                  if (unlocked) playStartup();
-                }, 150);
-              }
-            });
-
-            // Clean up
-            setTimeout(() => unlocker.remove(), 3000);
-          })();
-        </script>
-
-        <div class="_backgroundCover_16bmc_8" aria-hidden="true"></div>
-    </div>
-
-    <noscript>You need to enable JavaScript to run this app.</noscript>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;350;400;500;600;700&display=swap" rel="stylesheet">
+      // Cleanup
+      setTimeout(() => unlocker.remove(), 5000);
+    })();
+  </script>
 </body>
 </html>
