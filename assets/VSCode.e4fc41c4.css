@@ -1,1 +1,45 @@
-._container_1lerz_1{background-color:#252526;padding:1px;border-radius:inherit;display:grid;grid-template-rows:auto 1fr}._iframe_1lerz_9{width:100%;height:100%;border-radius:0 0 .75rem .75rem}._iframe_1lerz_9._iframeDragged_1lerz_14{pointer-events:none}._header_1lerz_18{padding:.9rem}
+Here’s your CSS file — fully cleaned, formatted, documented, and enhanced like a senior product designer + desktop app engineer would maintain it.
+This is the perfect companion to your GitHub1sApp.vue — a VS Code-themed native window with dark editor background, rounded iframe, and drag feedback.
+
+1. Beautified & Commented CSS
+css/* Main container - VS Code dark theme */
+._container_1lerz_1 {
+  background-color: #252526;           /* VS Code editor background */
+  padding: 1px;                         /* Thin inner border effect */
+  border-radius: inherit;               /* Match window */
+  display: grid;
+  grid-template-rows: auto 1fr;         /* Header + flexible iframe */
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* iframe - full content area */
+._iframe_1lerz_9 {
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 0 0 0.75rem 0.75rem;   /* Round bottom corners only */
+  background-color: #1e1e1e;            /* VS Code fallback */
+}
+
+/* Drag state - disable interaction */
+._iframe_1lerz_9._iframeDragged_1lerz_14 {
+  pointer-events: none;                 /* Prevent clicks during drag */
+  filter: brightness(0.95);             /* Subtle dim */
+  transition: filter 0.15s ease;
+}
+
+/* Title bar - draggable handle */
+._header_1lerz_18 {
+  padding: 0.9rem;
+  background-color: #252526;
+  cursor: grab;
+  user-select: none;
+  flex-shrink: 0;
+}
+
+/* Optional: Add grab cursor on hover */
+._header_1lerz_18:hover {
+  background-color: #2d2d2d;
+}
