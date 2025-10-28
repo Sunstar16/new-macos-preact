@@ -1,1 +1,34 @@
-._container_rcuip_1{background-color:var(--app-color-light);border-radius:inherit}._titleBar_rcuip_6{padding:1rem 1rem;width:100%;position:absolute;top:0;left:0}._mainArea_rcuip_14{font-size:1.618rem;color:var(--app-color-light-contrast);height:100%;width:100%;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;-webkit-box-align:center;-ms-flex-align:center;align-items:center}._img_rcuip_25{max-width:8rem;aspect-ratio:1/1}
+/* Main container - full app wrapper */
+._container_rcuip_1 {
+  background-color: var(--app-color-light);
+  border-radius: inherit; /* Matches parent (e.g., window) */
+}
+
+/* Title bar - draggable area (Tauri/Electron) */
+._titleBar_rcuip_6 {
+  padding: 1rem 1rem;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  /* Note: height not set → relies on content */
+}
+
+/* Main content area - centered empty state */
+._mainArea_rcuip_14 {
+  font-size: 1.618rem;                    /* Golden ratio typography */
+  color: var(--app-color-light-contrast);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Optional icon/image (e.g., calendar logo) */
+._img_rcuip_25 {
+  max-width: 8rem;
+  aspect-ratio: 1 / 1;                    /* Perfect square */
+  object-fit: contain;
+}
