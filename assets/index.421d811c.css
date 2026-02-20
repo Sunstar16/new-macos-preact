@@ -399,7 +399,7 @@ body.dark ._dockItemButton_ui98a_1 ._tooltip_ui98a_16 {
   width: 4px;
   margin: 0;
   border-radius: 50%;
-  background-color: var(--app-color-dark);
+  background-color: black;
   opacity: var(--opacity);
 }
 
