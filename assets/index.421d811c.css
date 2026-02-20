@@ -582,7 +582,8 @@ body.dark ._container_15cuo_1 {
   display: -ms-flexbox;
   display: flex;
   position: relative;
-  height: 100%;
+  color: white;
+  fill: white;
 }
 
 ._menuParent_bslv0_8 {
