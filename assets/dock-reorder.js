@@ -25,6 +25,10 @@
     if(finder){
       try{ finder.setAttribute('draggable','false'); }catch(e){}
       finder.dataset.appid = 'finder';
+      // ensure others remain draggable
+      Array.from(container.children).forEach(child=>{
+        if(child !== finder){ try{ child.setAttribute('draggable','true'); }catch(e){} }
+      });
     }
 
     // Restore saved order (by data-appid) but skip finder so it stays fixed at start
@@ -41,7 +45,7 @@
     }catch(e){}
 
     // Finally ensure Finder is the very first item
-    if(finder) container.insertBefore(finder, container.firstChild);
+    if(finder) container.insertBefore(finder, container.firstElementChild);
 
     let dragEl = null;
 
